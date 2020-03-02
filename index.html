@@ -1,0 +1,218 @@
+<head><title>Lesson counter</title></head>
+
+<script>
+'use strict'
+const dayis = 86400000n
+const weekis = 604800000n
+const lessis = [32400000n, 36900000n, 41400000n, 48000000n, 51900000n]
+const houris = 3600000n
+
+function gless(lessonsa, boundsi) {
+   var week2 = false
+   var lessout = []
+   for (var bound of boundsi) {
+      var startl = bound[0]
+      while (startl < bound[1]) {
+         var lessonsu = week2 ? lessonsa[1] : lessonsa[0]
+         var dayst = startl
+         for (var day of lessonsu) {
+            var lessonc = 0n
+            while (lessonc < 5n) {
+               lessout.push([day[lessonc], dayst + lessis[lessonc]])
+               lessonc += 1n
+            }
+            dayst += dayis
+         }
+         week2 = !week2
+         startl += weekis
+      }
+   }
+   return lessout
+}
+
+function getday(lessonsa, day, month, year) {
+   var daytime = BigInt(Date.UTC(year, month-1, day)) // for some reason it says months start at 0, which they don't
+   var daytimex = daytime + dayis
+   var lessout = []
+   for (var lesson of lessonsa) {
+      if (lesson[1] > daytime && lesson[1] < daytimex) lessout.push(lesson)
+   }
+   return lessout
+}
+
+function editday(lessonsa, day, month, year, newc) {
+   var day = getday(lessonsa, day, month, year)
+   for (var lesson of day) {
+      var pos = lessonsa.indexOf(lesson)
+      lessonsa.splice(pos, 1, [newc[0], lesson[1]])
+      newc.splice(0, 1)
+   }
+}
+
+function deletedays(lessonsa, days) {
+   for (var day of days) {
+      day = getday(lessonsa, day[0], day[1], day[2])
+      for (var lesson of day) {
+         var pos = lessonsa.indexOf(lesson)
+         lessonsa.splice(pos, 1)
+      }
+   }
+}
+</script>
+<body>
+<a href="javascript:usepreset('j')">Use James' timetable</a> <a href="javascript:usepreset('c')">Use Calum's timetable</a></br>
+Week 1</br><table id="table1"></table></br>Week 2</br><table id="table2"></table><br/>
+Lesson numbers:</br>
+1: <input id="lessonna1"></input>
+2: <input id="lessonna2"></input>
+3: <input id="lessonna3"></input>
+4: <input id="lessonna4"></input>
+5: <input id="lessonna5"></input>
+6: <input id="lessonna6"></input>
+7: <input id="lessonna7"></input>
+8: <input id="lessonna8"></input>
+9: <input id="lessonna9"></input>
+</br></br>
+<button onclick="gentimetable()">Generate results</button>
+</br>
+<span id="out"></span>
+</body>
+<script>
+function createtable(id) {
+   var daysweek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+   var table = document.getElementById("table" + id)
+   var row1 = table.insertRow(0)
+   row1.insertCell(0).innerHTML = ""
+   row1.insertCell(1).innerHTML = "1"
+   row1.insertCell(2).innerHTML = "2"
+   row1.insertCell(3).innerHTML = "3"
+   row1.insertCell(4).innerHTML = "4"
+   row1.insertCell(5).innerHTML = "5"
+   var n = 1n
+   while (n <= 5n) {
+      var row = table.insertRow(Number(n))
+      row.insertCell(0).innerHTML = daysweek[n-1n]
+      row.insertCell(1).innerHTML = "<input size='1' id='" + id + n + "1" + "'></input>"
+      row.insertCell(2).innerHTML = "<input size='1' id='" + id + n + "2" + "'></input>"
+      row.insertCell(3).innerHTML = "<input size='1' id='" + id + n + "3" + "'></input>"
+      row.insertCell(4).innerHTML = "<input size='1' id='" + id + n + "4" + "'></input>"
+      row.insertCell(5).innerHTML = "<input size='1' id='" + id + n + "5" + "'></input>"
+      n += 1n
+   }
+}
+createtable(1)
+createtable(2)
+var jamesas = ['Free', 'Maths', 'Further Maths', 'Physics', 'Computer Science', 'Tutor Group'] 
+var james = [[[0n, 3n, 3n, 3n, 0n], [2n, 4n, 4n, 1n, 2n], [2n, 3n, 2n, 4n, 4n], [2n, 1n, 1n, 4n, 4n], [3n, 3n, 0n, 3n, 1n]], [[4n, 2n, 4n, 3n, 1n], [0n, 1n, 3n, 1n, 1n], [2n, 4n, 5n, 0n, 0n], [4n, 2n, 1n, 0n, 2n], [1n, 3n, 0n, 2n, 0n]]]
+var calumas = ['Free', 'Maths', 'Further Maths', 'Physics', 'Tutor Group', ''] 
+var calum = [[[0n, 3n, 3n, 3n, 0n], [2n, 0n, 0n, 1n, 2n], [2n, 3n, 2n, 0n, 0n], [2n, 1n, 1n, 0n, 0n], [3n, 3n, 0n, 3n, 1n]], [[0n, 2n, 0n, 3n, 1n], [0n, 1n, 3n, 1n, 1n], [2n, 0n, 4n, 0n, 0n], [0n, 2n, 1n, 0n, 2n], [1n, 3n, 0n, 2n, 0n]]]
+
+function usepreset(person) {
+   var timetable
+   var timetableas
+   if (person == 'j') {
+      timetable = james
+      timetableas = jamesas
+   }
+   if (person == 'c') {
+      timetable = calum
+      timetableas = calumas
+   }
+   var n = 0n
+   while (n < 5n) {
+      var na = 0n
+      while (na < 5n) {
+         if (timetable[0][n][na]) document.getElementById('1' + (n+1n) + (na+1n)).value = timetable[0][n][na]
+         else document.getElementById('1' + (n+1n) + (na+1n)).value = ''
+         na += 1n
+      }
+      n += 1n
+   }
+   var n = 0n
+   while (n < 5n) {
+      var na = 0n
+      while (na < 5n) {
+         if (timetable[1][n][na]) document.getElementById('2' + (n+1n) + (na+1n)).value = timetable[1][n][na]
+         else document.getElementById('2' + (n+1n) + (na+1n)).value = ''
+         na += 1n
+      }
+      n += 1n
+   }
+   var n = 1n
+   while (n < timetableas.length) {
+      document.getElementById('lessonna' + n).value = timetableas[n]
+      n += 1n
+   }
+}
+
+function genlessons() {
+   var week1 = []
+   var n = 1n
+   while (n <= 5n) {
+      var day = []
+      var na = 1n
+      while (na <= 5n) {
+         var value = document.getElementById('1' + n + na).value
+         if (!value) value = 0n
+         day.push(BigInt(value))
+         na += 1n
+      }
+      week1.push(day)
+      n += 1n
+   }
+   var week2 = []
+   var n = 1n
+   while (n <= 5n) {
+      var day = []
+      var na = 1n
+      while (na <= 5n) {
+         var value = document.getElementById('2' + n + na).value
+         if (!value) value = 0n
+         day.push(BigInt(value))
+         na += 1n
+      }
+      week2.push(day)
+      n += 1n
+   }
+   return [week1, week2]
+}
+
+function genlessonsas() {
+   var out = ['f']
+   var n = 1n
+   while (n <= 9n) {
+      out.push(document.getElementById('lessonna' + n).value)
+      n += 1n
+   }
+   return out
+}
+
+var bounds1 = [[BigInt(new Date('March 2, 2020 GMT+0000').getTime()), BigInt(new Date('March 28, 2020 GMT+0000').getTime())], [BigInt(new Date('March 30, 2020 GMT+0100').getTime()), BigInt(new Date('April 4, 2020 GMT+0100').getTime())], [BigInt(new Date('April 20, 2020 GMT+0100').getTime()), BigInt(new Date('May 23, 2020 GMT+0100').getTime())], [BigInt(new Date('June 1, 2020 GMT+0100').getTime()), BigInt(new Date('July 17, 2020 GMT+0100').getTime())]]
+var bounds2 = [[BigInt(new Date('August 31, 2020 GMT+0100').getTime()), BigInt(new Date('October 24, 2020 GMT+0100').getTime())], [BigInt(new Date('November 2, 2020 GMT+0000').getTime()), BigInt(new Date('December 19, 2020 GMT+0000').getTime())], [BigInt(new Date('January 4, 2021 GMT+0000').getTime()), BigInt(new Date('February 12, 2021 GMT+0000').getTime())], [BigInt(new Date('February 22, 2021 GMT+0000').getTime()), BigInt(new Date('March 27, 2021 GMT+0000').getTime())], [BigInt(new Date('March 29, 2021 GMT+0100').getTime()), BigInt(new Date('April 3, 2021 GMT+0100').getTime())], [BigInt(new Date('April 19, 2021 GMT+0100').getTime()), BigInt(new Date('May 29, 2021 GMT+0100').getTime())], [BigInt(new Date('April 19, 2021 GMT+0100').getTime()), BigInt(new Date('May 9, 2021 GMT+0100').getTime())]]
+
+function gentimetable() {
+   var lessons = genlessons()
+   var lessonsas = genlessonsas()
+   var outgless = gless(lessons, bounds1).concat(gless(lessons, bounds2))
+   deletedays(outgless, [[8, 5, 2020], [31, 8, 2020], [1, 9, 2020], [2, 9, 2020], [23, 10, 2020], [2, 4, 2021], [3, 5, 2021]]) // wank holidays, early leave/start
+   editday(outgless, 22, 10, 2020, [lessons[1][3][0], lessons[1][3][1], lessons[1][3][2], null, null]) // half day
+
+   var timenow = BigInt(Date.now())
+   var timenowend = timenow - houris // an easy way to see if the time is during a lesson
+   var outcount = [0n, 0n, 0n, 0n, 0n, 0n, 0n, 0n, 0n, 0n]
+   var curless = false
+   for (lesson of outgless) {
+      if (lesson[1] > timenow && lesson[0] !== null) outcount[lesson[0]] += 1n
+      else if (lesson[1] > timenowend && lesson[0] !== null) curless = lesson[0]
+   }
+   var str = "Up to and excluding 10th May 2021, you have:</br>" + outcount[0] + " frees"
+   var n = 1n
+   while (n <= 9n) {
+      if (outcount[n]) str += '</br>' + outcount[n] + ' ' + lessonsas[n] + ' lessons'
+      n += 1n
+   }
+   if (curless) str += "</br></br>You are currently in a " + lessonsas[curless] + " lesson that has not contributed to these totals."
+   document.getElementById('out').innerHTML = str
+}
+
+</script>
