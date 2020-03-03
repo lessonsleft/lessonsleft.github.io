@@ -235,7 +235,7 @@ function genlessonsas() {
    var out = ['f']
    var n = 1n
    while (n <= 9n) {
-      out.push(document.getElementById('lessonna' + n).value)
+      out.push(document.getElementById('lessonna' + n).value.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;"))
       n += 1n
    }
    return out
