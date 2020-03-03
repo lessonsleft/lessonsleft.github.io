@@ -59,25 +59,32 @@ function deletedays(lessonsa, days) {
    }
 }
 </script>
-<body>
-<a href="javascript:usepreset('j')">Use James' timetable</a> <a href="javascript:usepreset('c')">Use Calum's timetable</a></br>
+<body style="background-color: #282828; color: white">
+Examples: <a href="javascript:usepreset('j')">Use James' timetable</a> <a href="javascript:usepreset('c')">Use Calum's timetable</a></br></br>
 Week 1</br><table id="table1"></table></br>Week 2</br><table id="table2"></table><br/>
 Lesson numbers:</br>
-1: <input id="lessonna1" style="background-color:fuchsia"></input><input id="buttons" name="buttons" value="1" type="radio"></input>
-2: <input id="lessonna2" style="background-color:aqua"></input><input id="buttons" name="buttons" value="2" type="radio"></input>
-3: <input id="lessonna3" style="background-color:olive"></input><input id="buttons" name="buttons" value="3" type="radio"></input>
-4: <input id="lessonna4" style="background-color:silver"></input><input id="buttons" name="buttons" value="4" type="radio"></input>
-5: <input id="lessonna5" style="background-color:maroon"></input><input id="buttons" name="buttons" value="5" type="radio"></input>
-6: <input id="lessonna6" style="background-color:lime"></input><input id="buttons" name="buttons" value="6" type="radio"></input>
-7: <input id="lessonna7" style="background-color:yellow"></input><input id="buttons" name="buttons" value="7" type="radio"></input>
-8: <input id="lessonna8" style="background-color:red"></input><input id="buttons" name="buttons" value="8" type="radio"></input>
-9: <input id="lessonna9" style="background-color:purple"></input><input id="buttons" name="buttons" value="9" type="radio"></input>
+1:<input id="buttons" name="buttons" value="1" type="radio" onclick="decheck('1')"></input><input id="lessonna1" style="background-color:fuchsia; color: aqua"></input>
+2:<input id="buttons" name="buttons" value="2" type="radio" onclick="decheck('2')"></input><input id="lessonna2" style="background-color:aqua; color: fuchsia"></input>
+3:<input id="buttons" name="buttons" value="3" type="radio" onclick="decheck('3')"></input><input id="lessonna3" style="background-color:olive; color: blue"></input>
+4:<input id="buttons" name="buttons" value="4" type="radio" onclick="decheck('4')"></input><input id="lessonna4" style="background-color:silver; color: #3f3f3f"></input>
+5:<input id="buttons" name="buttons" value="5" type="radio" onclick="decheck('5')"></input><input id="lessonna5" style="background-color:maroon; color: #7fffff"></input>
+6:<input id="buttons" name="buttons" value="6" type="radio" onclick="decheck('6')"></input><input id="lessonna6" style="background-color:lime; color: fuchsia"></input>
+7:<input id="buttons" name="buttons" value="7" type="radio" onclick="decheck('7')"></input><input id="lessonna7" style="background-color:yellow; color: blue"></input>
+8:<input id="buttons" name="buttons" value="8" type="radio" onclick="decheck('8')"></input><input id="lessonna8" style="background-color:red; color: #00ffff"></input>
+9:<input id="buttons" name="buttons" value="9" type="radio" onclick="decheck('9')"></input><input id="lessonna9" style="background-color:purple; color: #7fff7f"></input>
 </br></br>
 <button onclick="gentimetable()">Generate results</button>
 </br>
-<span id="out"></span>
+<span id="out"></span></br></br></br>How to use:</br></br>
+Assign each number a lesson name. Then to input the values, you can either type in the number of each lesson into the timetable boxes, or press the button each to next lesson and click on each timetable box to assign the time a lesson. Frees are shown by white boxes and can be left empty. You can deselect the button by clicking it a second time. When you have set the timetable, click 'Generate results' and read them!</br></br>
+If you would like an example, you can click "<a href="javascript:usepreset('j')">Use James' timetable</a>" or "<a href="javascript:usepreset('c')">Use Calum's timetable</a>" at the top.</br></br></br>
+<div style="position: fixed; bottom: 10; color: olive; background-color: #282828">This page and all its code has been released into the public domain using the <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode">CC0</a> licence.</div>
 </body>
 <script>
+'use strict'
+if (typeof BigInt == "undefined") {
+   document.body.innerHTML = "This horrific browser does not support this terrific tool, so I shall not waste any more of the universe's resources on this disgrace."
+}
 function createtable(id) {
    var daysweek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
    var table = document.getElementById("table" + id)
@@ -92,34 +99,67 @@ function createtable(id) {
    while (n <= 5n) {
       var row = table.insertRow(Number(n))
       row.insertCell(0).innerHTML = daysweek[n-1n]
-      row.insertCell(1).innerHTML = "<input size='1' id='" + id + n + "1" + "' onclick='setvaluein(" + id + n + "1" + ")' onkeyup='changecolor(" + id + n + "1" + ")' onmouseleave='changecolor(" + id + n + "1" + ")'></input>"
-      row.insertCell(2).innerHTML = "<input size='1' id='" + id + n + "2" + "' onclick='setvaluein(" + id + n + "2" + ")' onkeyup='changecolor(" + id + n + "2" + ")' onmouseleave='changecolor(" + id + n + "2" + ")'></input>"
-      row.insertCell(3).innerHTML = "<input size='1' id='" + id + n + "3" + "' onclick='setvaluein(" + id + n + "3" + ")' onkeyup='changecolor(" + id + n + "3" + ")' onmouseleave='changecolor(" + id + n + "3" + ")'></input>"
-      row.insertCell(4).innerHTML = "<input size='1' id='" + id + n + "4" + "' onclick='setvaluein(" + id + n + "4" + ")' onkeyup='changecolor(" + id + n + "4" + ")' onmouseleave='changecolor(" + id + n + "4" + ")'></input>"
-      row.insertCell(5).innerHTML = "<input size='1' id='" + id + n + "5" + "' onclick='setvaluein(" + id + n + "5" + ")' onkeyup='changecolor(" + id + n + "5" + ")' onmouseleave='changecolor(" + id + n + "5" + ")'></input>"
+      row.insertCell(1).innerHTML = "<input size='1' id='" + id + n + "1" + "' onclick='setvaluein(" + id + n + "1" + "); changecolor(" + id + n + "1" + ")' onkeyup='changecolor(" + id + n + "1" + ")'></input>"
+      row.insertCell(2).innerHTML = "<input size='1' id='" + id + n + "2" + "' onclick='setvaluein(" + id + n + "2" + "); changecolor(" + id + n + "2" + ")' onkeyup='changecolor(" + id + n + "2" + ")'></input>"
+      row.insertCell(3).innerHTML = "<input size='1' id='" + id + n + "3" + "' onclick='setvaluein(" + id + n + "3" + "); changecolor(" + id + n + "3" + ")' onkeyup='changecolor(" + id + n + "3" + ")'></input>"
+      row.insertCell(4).innerHTML = "<input size='1' id='" + id + n + "4" + "' onclick='setvaluein(" + id + n + "4" + "); changecolor(" + id + n + "4" + ")' onkeyup='changecolor(" + id + n + "4" + ")'></input>"
+      row.insertCell(5).innerHTML = "<input size='1' id='" + id + n + "5" + "' onclick='setvaluein(" + id + n + "5" + "); changecolor(" + id + n + "5" + ")' onkeyup='changecolor(" + id + n + "5" + ")'></input>"
       n += 1n
    }
 }
+
 createtable(1)
 createtable(2)
 var colors = ['white', 'fuchsia', 'aqua', 'olive', 'silver', 'maroon', 'lime', 'yellow', 'red', 'purple']
+var colorsi = ['black', 'aqua', 'fuchsia', 'blue', '#3f3f3f', '#7fffff', 'fuchsia', 'blue', '#00ffff', '#7fff7f']
 var jamesas = ['Free', 'Maths', 'Further Maths', 'Physics', 'Computer Science', 'Tutor Group'] 
 var james = [[[0n, 3n, 3n, 3n, 0n], [2n, 4n, 4n, 1n, 2n], [2n, 3n, 2n, 4n, 4n], [2n, 1n, 1n, 4n, 4n], [3n, 3n, 0n, 3n, 1n]], [[4n, 2n, 4n, 3n, 1n], [0n, 1n, 3n, 1n, 1n], [2n, 4n, 5n, 0n, 0n], [4n, 2n, 1n, 0n, 2n], [1n, 3n, 0n, 2n, 0n]]]
 var calumas = ['Free', 'Maths', 'Further Maths', 'Physics', 'Tutor Group', ''] 
 var calum = [[[0n, 3n, 3n, 3n, 0n], [2n, 0n, 0n, 1n, 2n], [2n, 3n, 2n, 0n, 0n], [2n, 1n, 1n, 0n, 0n], [3n, 3n, 0n, 3n, 1n]], [[0n, 2n, 0n, 3n, 1n], [0n, 1n, 3n, 1n, 1n], [2n, 0n, 4n, 0n, 0n], [0n, 2n, 1n, 0n, 2n], [1n, 3n, 0n, 2n, 0n]]]
+
 function setvaluein(id) {
    var buttons = document.getElementsByName('buttons')
    for (var button of buttons) {
       if (button.checked) {
-         document.getElementById(id).value = button.value
+         if (document.getElementById(id).value == button.value) document.getElementById(id).value = ''
+          else document.getElementById(id).value = button.value
       }
    }
 }
+
+var pushed = null
+
+function decheck(id) {
+   if (pushed != id) pushed = id
+   else {
+      pushed = null
+      document.getElementsByName('buttons')[BigInt(id)-1n].checked = false
+   }
+}
+
 function changecolor(id) {
    var cpos = document.getElementById(id).value
-   if (!cpos) cpos = 0n
+   if (!cpos || cpos != cpos.replace(/\D/g,'') || cpos > 9n) cpos = 0n
    document.getElementById(id).style.backgroundColor = colors[cpos]
+   document.getElementById(id).style.color = colorsi[cpos]
 }
+
+function changeallcolor() {
+   var week = 1n
+   while (week < 3n) {
+      var n = 1n
+      while (n < 6n) {
+         var an = 1n
+         while (an < 6n) {
+            changecolor(week + '' + n + '' + an)
+            an += 1n
+         }
+         n += 1n
+      }
+      week += 1n
+   }
+}
+
 function usepreset(person) {
    var timetable
    var timetableas
@@ -156,6 +196,7 @@ function usepreset(person) {
       document.getElementById('lessonna' + n).value = timetableas[n]
       n += 1n
    }
+   changeallcolor()
 }
 
 function genlessons() {
@@ -166,7 +207,7 @@ function genlessons() {
       var na = 1n
       while (na <= 5n) {
          var value = document.getElementById('1' + n + na).value
-         if (!value) value = 0n
+         if (!value || value != value.replace(/\D/g,'') || value > 9n) value = 0n
          day.push(BigInt(value))
          na += 1n
       }
@@ -180,7 +221,7 @@ function genlessons() {
       var na = 1n
       while (na <= 5n) {
          var value = document.getElementById('2' + n + na).value
-         if (!value) value = 0n
+         if (!value || value != value.replace(/\D/g,'') || value > 9n) value = 0n
          day.push(BigInt(value))
          na += 1n
       }
@@ -214,7 +255,7 @@ function gentimetable() {
    var timenowend = timenow - houris // an easy way to see if the time is during a lesson
    var outcount = [0n, 0n, 0n, 0n, 0n, 0n, 0n, 0n, 0n, 0n]
    var curless = false
-   for (lesson of outgless) {
+   for (var lesson of outgless) {
       if (lesson[1] > timenow && lesson[0] !== null) outcount[lesson[0]] += 1n
       else if (lesson[1] > timenowend && lesson[0] !== null) curless = lesson[0]
    }
