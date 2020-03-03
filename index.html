@@ -63,15 +63,15 @@ function deletedays(lessonsa, days) {
 <a href="javascript:usepreset('j')">Use James' timetable</a> <a href="javascript:usepreset('c')">Use Calum's timetable</a></br>
 Week 1</br><table id="table1"></table></br>Week 2</br><table id="table2"></table><br/>
 Lesson numbers:</br>
-1: <input id="lessonna1"></input>
-2: <input id="lessonna2"></input>
-3: <input id="lessonna3"></input>
-4: <input id="lessonna4"></input>
-5: <input id="lessonna5"></input>
-6: <input id="lessonna6"></input>
-7: <input id="lessonna7"></input>
-8: <input id="lessonna8"></input>
-9: <input id="lessonna9"></input>
+1: <input id="lessonna1" style="background-color:fuchsia"></input><input id="buttons" name="buttons" value="1" type="radio"></input>
+2: <input id="lessonna2" style="background-color:aqua"></input><input id="buttons" name="buttons" value="2" type="radio"></input>
+3: <input id="lessonna3" style="background-color:olive"></input><input id="buttons" name="buttons" value="3" type="radio"></input>
+4: <input id="lessonna4" style="background-color:silver"></input><input id="buttons" name="buttons" value="4" type="radio"></input>
+5: <input id="lessonna5" style="background-color:maroon"></input><input id="buttons" name="buttons" value="5" type="radio"></input>
+6: <input id="lessonna6" style="background-color:lime"></input><input id="buttons" name="buttons" value="6" type="radio"></input>
+7: <input id="lessonna7" style="background-color:yellow"></input><input id="buttons" name="buttons" value="7" type="radio"></input>
+8: <input id="lessonna8" style="background-color:red"></input><input id="buttons" name="buttons" value="8" type="radio"></input>
+9: <input id="lessonna9" style="background-color:purple"></input><input id="buttons" name="buttons" value="9" type="radio"></input>
 </br></br>
 <button onclick="gentimetable()">Generate results</button>
 </br>
@@ -92,21 +92,34 @@ function createtable(id) {
    while (n <= 5n) {
       var row = table.insertRow(Number(n))
       row.insertCell(0).innerHTML = daysweek[n-1n]
-      row.insertCell(1).innerHTML = "<input size='1' id='" + id + n + "1" + "'></input>"
-      row.insertCell(2).innerHTML = "<input size='1' id='" + id + n + "2" + "'></input>"
-      row.insertCell(3).innerHTML = "<input size='1' id='" + id + n + "3" + "'></input>"
-      row.insertCell(4).innerHTML = "<input size='1' id='" + id + n + "4" + "'></input>"
-      row.insertCell(5).innerHTML = "<input size='1' id='" + id + n + "5" + "'></input>"
+      row.insertCell(1).innerHTML = "<input size='1' id='" + id + n + "1" + "' onclick='setvaluein(" + id + n + "1" + ")' onkeyup='changecolor(" + id + n + "1" + ")' onmouseleave='changecolor(" + id + n + "1" + ")'></input>"
+      row.insertCell(2).innerHTML = "<input size='1' id='" + id + n + "2" + "' onclick='setvaluein(" + id + n + "2" + ")' onkeyup='changecolor(" + id + n + "2" + ")' onmouseleave='changecolor(" + id + n + "2" + ")'></input>"
+      row.insertCell(3).innerHTML = "<input size='1' id='" + id + n + "3" + "' onclick='setvaluein(" + id + n + "3" + ")' onkeyup='changecolor(" + id + n + "3" + ")' onmouseleave='changecolor(" + id + n + "3" + ")'></input>"
+      row.insertCell(4).innerHTML = "<input size='1' id='" + id + n + "4" + "' onclick='setvaluein(" + id + n + "4" + ")' onkeyup='changecolor(" + id + n + "4" + ")' onmouseleave='changecolor(" + id + n + "4" + ")'></input>"
+      row.insertCell(5).innerHTML = "<input size='1' id='" + id + n + "5" + "' onclick='setvaluein(" + id + n + "5" + ")' onkeyup='changecolor(" + id + n + "5" + ")' onmouseleave='changecolor(" + id + n + "5" + ")'></input>"
       n += 1n
    }
 }
 createtable(1)
 createtable(2)
+var colors = ['white', 'fuchsia', 'aqua', 'olive', 'silver', 'maroon', 'lime', 'yellow', 'red', 'purple']
 var jamesas = ['Free', 'Maths', 'Further Maths', 'Physics', 'Computer Science', 'Tutor Group'] 
 var james = [[[0n, 3n, 3n, 3n, 0n], [2n, 4n, 4n, 1n, 2n], [2n, 3n, 2n, 4n, 4n], [2n, 1n, 1n, 4n, 4n], [3n, 3n, 0n, 3n, 1n]], [[4n, 2n, 4n, 3n, 1n], [0n, 1n, 3n, 1n, 1n], [2n, 4n, 5n, 0n, 0n], [4n, 2n, 1n, 0n, 2n], [1n, 3n, 0n, 2n, 0n]]]
 var calumas = ['Free', 'Maths', 'Further Maths', 'Physics', 'Tutor Group', ''] 
 var calum = [[[0n, 3n, 3n, 3n, 0n], [2n, 0n, 0n, 1n, 2n], [2n, 3n, 2n, 0n, 0n], [2n, 1n, 1n, 0n, 0n], [3n, 3n, 0n, 3n, 1n]], [[0n, 2n, 0n, 3n, 1n], [0n, 1n, 3n, 1n, 1n], [2n, 0n, 4n, 0n, 0n], [0n, 2n, 1n, 0n, 2n], [1n, 3n, 0n, 2n, 0n]]]
-
+function setvaluein(id) {
+   var buttons = document.getElementsByName('buttons')
+   for (var button of buttons) {
+      if (button.checked) {
+         document.getElementById(id).value = button.value
+      }
+   }
+}
+function changecolor(id) {
+   var cpos = document.getElementById(id).value
+   if (!cpos) cpos = 0n
+   document.getElementById(id).style.backgroundColor = colors[cpos]
+}
 function usepreset(person) {
    var timetable
    var timetableas
