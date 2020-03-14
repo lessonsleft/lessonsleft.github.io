@@ -1,7 +1,5 @@
 <head><title>Lesson counter</title></head>
-
 <script>
-'use strict'
 const dayis = 86400000n
 const weekis = 604800000n
 const lessis = [32400000n, 36900000n, 41400000n, 48000000n, 51900000n]
@@ -63,17 +61,17 @@ function deletedays(lessonsa, days) {
 Examples: <a href="javascript:usepreset('j')">Use James' timetable</a> <a href="javascript:usepreset('c')">Use Calum's timetable</a></br></br>
 Week 1</br><table id="table1"></table></br>Week 2</br><table id="table2"></table><br/>
 Lesson numbers:</br>
-1:<input id="buttons" name="buttons" value="1" type="radio" onclick="decheck('1')"></input><input id="lessonna1" style="background-color:fuchsia; color: aqua"></input>
-2:<input id="buttons" name="buttons" value="2" type="radio" onclick="decheck('2')"></input><input id="lessonna2" style="background-color:aqua; color: fuchsia"></input>
-3:<input id="buttons" name="buttons" value="3" type="radio" onclick="decheck('3')"></input><input id="lessonna3" style="background-color:olive; color: blue"></input>
-4:<input id="buttons" name="buttons" value="4" type="radio" onclick="decheck('4')"></input><input id="lessonna4" style="background-color:silver; color: #3f3f3f"></input>
-5:<input id="buttons" name="buttons" value="5" type="radio" onclick="decheck('5')"></input><input id="lessonna5" style="background-color:maroon; color: #7fffff"></input>
-6:<input id="buttons" name="buttons" value="6" type="radio" onclick="decheck('6')"></input><input id="lessonna6" style="background-color:lime; color: fuchsia"></input>
-7:<input id="buttons" name="buttons" value="7" type="radio" onclick="decheck('7')"></input><input id="lessonna7" style="background-color:yellow; color: blue"></input>
-8:<input id="buttons" name="buttons" value="8" type="radio" onclick="decheck('8')"></input><input id="lessonna8" style="background-color:red; color: #00ffff"></input>
-9:<input id="buttons" name="buttons" value="9" type="radio" onclick="decheck('9')"></input><input id="lessonna9" style="background-color:purple; color: #7fff7f"></input>
+1:<input id="buttons" name="buttons" value="1" type="radio" onclick="decheck('1')"></input><input id="lessonna1" onkeyup="updatesave()" style="background-color:fuchsia; color: aqua"></input>
+2:<input id="buttons" name="buttons" value="2" type="radio" onclick="decheck('2')"></input><input id="lessonna2" onkeyup="updatesave()" style="background-color:aqua; color: fuchsia"></input>
+3:<input id="buttons" name="buttons" value="3" type="radio" onclick="decheck('3')"></input><input id="lessonna3" onkeyup="updatesave()" style="background-color:olive; color: blue"></input>
+4:<input id="buttons" name="buttons" value="4" type="radio" onclick="decheck('4')"></input><input id="lessonna4" onkeyup="updatesave()" style="background-color:silver; color: #3f3f3f"></input>
+5:<input id="buttons" name="buttons" value="5" type="radio" onclick="decheck('5')"></input><input id="lessonna5" onkeyup="updatesave()" style="background-color:maroon; color: #7fffff"></input>
+6:<input id="buttons" name="buttons" value="6" type="radio" onclick="decheck('6')"></input><input id="lessonna6" onkeyup="updatesave()" style="background-color:lime; color: fuchsia"></input>
+7:<input id="buttons" name="buttons" value="7" type="radio" onclick="decheck('7')"></input><input id="lessonna7" onkeyup="updatesave()" style="background-color:yellow; color: blue"></input>
+8:<input id="buttons" name="buttons" value="8" type="radio" onclick="decheck('8')"></input><input id="lessonna8" onkeyup="updatesave()" style="background-color:red; color: #00ffff"></input>
+9:<input id="buttons" name="buttons" value="9" type="radio" onclick="decheck('9')"></input><input id="lessonna9" onkeyup="updatesave()" style="background-color:purple; color: #7fff7f"></input> <a href="javascript:undo()">Undo</a> <a href="javascript:redo()">Redo</a> <a id="downloadlink" href="javascript:downloadtimetable()">Download</a> <a href="javascript:document.getElementById('uploadt').click()">Upload</a>
 </br></br>
-<button onclick="gentimetable()">Generate results</button>
+<button onclick="gentimetable()">Generate results</button><input type="file" id="uploadt" accept=".txt" style="display: none" onchange="uploadtimetable()"></input>
 </br>
 <span id="out"></span></br></br></br>How to use:</br></br>
 Assign each number a lesson name. Then to input the values, you can either type in the number of each lesson into the timetable boxes, or press the button each to next lesson and click on each timetable box to assign the time a lesson. Frees are shown by white boxes and can be left empty. You can deselect the button by clicking it a second time. When you have set the timetable, click 'Generate results' and read them!</br></br>
@@ -81,10 +79,23 @@ If you would like an example, you can click "<a href="javascript:usepreset('j')"
 <div style="position: fixed; bottom: 10; color: olive; background-color: #282828">This page and all its code has been released into the public domain using the <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode" target="tab">CC0</a> licence.</div>
 </body>
 <script>
-'use strict'
 if (typeof BigInt == "undefined") {
    document.body.innerHTML = "This horrific browser does not support this terrific tool, so I shall not waste any more of the universe's resources on this disgrace."
 }
+function allowcookies() {
+   localStorage.setItem('tcount', '1')
+   localStorage.setItem('timetable1', '00000,00000,00000,00000,00000,;00000,00000,00000,00000,00000,;<>>>>>>>>>>')
+   location.reload()
+}
+var tcount = localStorage.getItem('tcount')
+if (!tcount) {
+   document.body.innerHTML = "In accordance with Privacy and Electronic Communications Regulations regulation 6, I am legally required to inform you that this site will save data onto this browser, and to get your consent to do this before you continue. <button onclick='allowcookies()'>Accept and continue</button></br></br>This will be used to store data you have entered during sessions. This will not be encrypted and may be accessible to other websites, so do not input anything sensitive."
+}
+</script>
+<script>
+'use strict'
+var tcount = localStorage.getItem('tcount')
+if (!tcount) throw "Accept cookies first"
 function createtable(id) {
    var daysweek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
    var table = document.getElementById("table" + id)
@@ -99,11 +110,11 @@ function createtable(id) {
    while (n <= 5n) {
       var row = table.insertRow(Number(n))
       row.insertCell(0).innerHTML = daysweek[n-1n]
-      row.insertCell(1).innerHTML = "<input size='1' id='" + id + n + "1" + "' onclick='setvaluein(" + id + n + "1" + "); changecolor(" + id + n + "1" + ")' onkeyup='changecolor(" + id + n + "1" + ")'></input>"
-      row.insertCell(2).innerHTML = "<input size='1' id='" + id + n + "2" + "' onclick='setvaluein(" + id + n + "2" + "); changecolor(" + id + n + "2" + ")' onkeyup='changecolor(" + id + n + "2" + ")'></input>"
-      row.insertCell(3).innerHTML = "<input size='1' id='" + id + n + "3" + "' onclick='setvaluein(" + id + n + "3" + "); changecolor(" + id + n + "3" + ")' onkeyup='changecolor(" + id + n + "3" + ")'></input>"
-      row.insertCell(4).innerHTML = "<input size='1' id='" + id + n + "4" + "' onclick='setvaluein(" + id + n + "4" + "); changecolor(" + id + n + "4" + ")' onkeyup='changecolor(" + id + n + "4" + ")'></input>"
-      row.insertCell(5).innerHTML = "<input size='1' id='" + id + n + "5" + "' onclick='setvaluein(" + id + n + "5" + "); changecolor(" + id + n + "5" + ")' onkeyup='changecolor(" + id + n + "5" + ")'></input>"
+      row.insertCell(1).innerHTML = "<input size='1' id='" + id + n + "1" + "' onclick='setvaluein(" + id + n + "1" + "); changecolor(" + id + n + "1" + "); updatesave()' onkeyup='changecolor(" + id + n + "1" + "); updatesave()'></input>"
+      row.insertCell(2).innerHTML = "<input size='1' id='" + id + n + "2" + "' onclick='setvaluein(" + id + n + "2" + "); changecolor(" + id + n + "2" + "); updatesave()' onkeyup='changecolor(" + id + n + "2" + "); updatesave()'></input>"
+      row.insertCell(3).innerHTML = "<input size='1' id='" + id + n + "3" + "' onclick='setvaluein(" + id + n + "3" + "); changecolor(" + id + n + "3" + "); updatesave()' onkeyup='changecolor(" + id + n + "3" + "); updatesave()'></input>"
+      row.insertCell(4).innerHTML = "<input size='1' id='" + id + n + "4" + "' onclick='setvaluein(" + id + n + "4" + "); changecolor(" + id + n + "4" + "); updatesave()' onkeyup='changecolor(" + id + n + "4" + "); updatesave()'></input>"
+      row.insertCell(5).innerHTML = "<input size='1' id='" + id + n + "5" + "' onclick='setvaluein(" + id + n + "5" + "); changecolor(" + id + n + "5" + "); updatesave()' onkeyup='changecolor(" + id + n + "5" + "); updatesave()'></input>"
       n += 1n
    }
 }
@@ -160,16 +171,21 @@ function changeallcolor() {
    }
 }
 
-function usepreset(person) {
+function usepreset(person, uaa = true) {
    var timetable
    var timetableas
    if (person == 'j') {
       timetable = james
       timetableas = jamesas
    }
-   if (person == 'c') {
+   else if (person == 'c') {
       timetable = calum
       timetableas = calumas
+   }
+   else {
+      if (!person) return
+      timetable = person[0]
+      timetableas = person[1]
    }
    var n = 0n
    while (n < 5n) {
@@ -192,11 +208,13 @@ function usepreset(person) {
       n += 1n
    }
    var n = 1n
-   while (n < timetableas.length) {
+   while (n < 9n) {
+      if (!timetableas[n]) timetableas[n] = ''
       document.getElementById('lessonna' + n).value = timetableas[n]
       n += 1n
    }
    changeallcolor()
+   if (uaa) updatesave()
 }
 
 function genlessons() {
@@ -269,4 +287,101 @@ function gentimetable() {
    document.getElementById('out').innerHTML = str
 }
 
+function timetabletostring(timetable, timetableas) {
+   var out = ""
+   for (var week of timetable) {
+      for (var day of week) {
+         for (var lesson of day) {
+            out += lesson
+         }
+         out += ','
+      }
+      out += ';'
+   }
+   out += '<'
+   for (var lname of timetableas) {
+      out += lname + '>'
+   }
+   return out
+}
+function timetablefromstring(string) {
+   string = string.split('<')
+   var timetable = string[0]
+   var timetableout = []
+   for (var week of timetable.split(';')) {
+      if (!week) break
+      var weekout = []
+      for (var day of week.split(',')) {
+         if (!day) break
+         var dayout = []
+         for (var lesson of day) {
+            dayout.push(BigInt(lesson))
+         }
+         weekout.push(dayout)
+      }
+      timetableout.push(weekout)
+   }
+   return [timetableout, string[1].split('>')]
+}
+tcount = BigInt(tcount)
+var storeddata = timetablefromstring(localStorage.getItem('timetable' + tcount))
+usepreset(storeddata)
+function updatesave() {
+   var storeddata1 = timetabletostring(genlessons(), genlessonsas())
+   if (storeddata == storeddata1) return
+   tcount += 1n
+   localStorage.removeItem('redo' + tcount)
+   storeddata = storeddata1
+   localStorage.setItem('tcount', tcount)
+   localStorage.setItem('timetable' + tcount, storeddata)
+}
+
+function undo() {
+   if (tcount == 1n) return
+   localStorage.removeItem('timetable' + tcount)
+   tcount -= 1n
+   localStorage.setItem('tcount', tcount)
+   localStorage.setItem('redo' + tcount, timetabletostring(genlessons(), genlessonsas()))
+   usepreset(timetablefromstring(localStorage.getItem('timetable' + tcount)), false)
+}
+
+function redo() {
+   if (!localStorage.getItem('redo' + tcount)) return
+   usepreset(timetablefromstring(localStorage.getItem('redo' + tcount)), false)
+   localStorage.removeItem('redo' + tcount)
+   tcount += 1n
+   localStorage.setItem('tcount', tcount)
+   localStorage.setItem('timetable' + tcount, timetabletostring(genlessons(), genlessonsas()))
+}
+
+function downloadtimetable() { // this is incredibly hacky yes but research doesn't show any good method so this will have to do i'm sorry
+   var link = 'data:text/plain;charset=utf-8,' + encodeURIComponent(timetabletostring(genlessons(), genlessonsas()))
+   document.getElementById('downloadlink').setAttribute("download", 'timetable.txt')
+   document.getElementById('downloadlink').setAttribute("href", link)
+   document.getElementById('downloadlink').click()
+   document.getElementById('downloadlink').removeAttribute("download")
+   document.getElementById('downloadlink').setAttribute("href", "javascript:downloadtimetable()")
+}
+
+var reader = new FileReader()
+reader.onload = function(uptext) {
+   try {
+      var uptimetable = timetablefromstring(uptext.target.result)
+      usepreset(uptimetable)
+   }
+   catch (err) {
+      alert('Upload failed!')
+      console.log(err)
+   }
+}
+
+function uploadtimetable() {
+   try {
+      reader.readAsText(document.getElementById('uploadt').files[0])
+   }
+   catch (err) {
+      alert('Upload failed!')
+      console.log(err)
+   }
+}
 </script>
