@@ -365,12 +365,7 @@ function downloadtimetable() { // this is incredibly hacky yes but research does
 
 function copylink() {
    var link = "https://lessonsleft.github.io/#" + encodeURI(timetabletostring(genlessons(), genlessonsas()))
-   document.getElementById("copylink").value = link
-   document.getElementById("copylink").style = ''
-   document.getElementById("copylink").select()
-   document.getElementById("copylink").setSelectionRange(0, link.length)
-   document.execCommand("copy")
-   document.getElementById("copylink").style = 'display: none'
+   navigator.clipboard.writeText(link)
 }
 
 if (window.location.href.split('#')[1]) {
