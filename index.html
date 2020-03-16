@@ -69,9 +69,9 @@ Lesson numbers:</br>
 6:<input id="buttons" name="buttons" value="6" type="radio" onclick="decheck('6')"></input><input id="lessonna6" onkeyup="updatesave()" style="background-color:lime; color: fuchsia"></input>
 7:<input id="buttons" name="buttons" value="7" type="radio" onclick="decheck('7')"></input><input id="lessonna7" onkeyup="updatesave()" style="background-color:yellow; color: blue"></input>
 8:<input id="buttons" name="buttons" value="8" type="radio" onclick="decheck('8')"></input><input id="lessonna8" onkeyup="updatesave()" style="background-color:red; color: #00ffff"></input>
-9:<input id="buttons" name="buttons" value="9" type="radio" onclick="decheck('9')"></input><input id="lessonna9" onkeyup="updatesave()" style="background-color:purple; color: #7fff7f"></input> <a href="javascript:undo()">Undo</a> <a href="javascript:redo()">Redo</a> <a id="downloadlink" href="javascript:downloadtimetable()">Download</a> <a href="javascript:document.getElementById('uploadt').click()">Upload</a>
+9:<input id="buttons" name="buttons" value="9" type="radio" onclick="decheck('9')"></input><input id="lessonna9" onkeyup="updatesave()" style="background-color:purple; color: #7fff7f"></input> <a href="javascript:undo()">Undo</a> <a href="javascript:redo()">Redo</a> <a href="javascript:copylink()">Copy link</a> <a id="downloadlink" href="javascript:downloadtimetable()">Download</a> <a href="javascript:document.getElementById('uploadt').click()">Upload</a>
 </br></br>
-<button onclick="gentimetable()">Generate results</button><input type="file" id="uploadt" accept=".txt" style="display: none" onchange="uploadtimetable()"></input>
+<button onclick="gentimetable()">Generate results</button><input type="file" id="uploadt" accept=".txt" style="display: none" onchange="uploadtimetable()"></input><input type="text" id="copylink" style="display: none"></input>
 </br>
 <span id="out"></span></br></br></br>How to use:</br></br>
 Assign each number a lesson name. Then to input the values, you can either type in the number of each lesson into the timetable boxes, or press the button each to next lesson and click on each timetable box to assign the time a lesson. Frees are shown by white boxes and can be left empty. You can deselect the button by clicking it a second time. When you have set the timetable, click 'Generate results' and read them!</br></br>
@@ -325,7 +325,7 @@ function timetablefromstring(string) {
 }
 tcount = BigInt(tcount)
 var storeddata = timetablefromstring(localStorage.getItem('timetable' + tcount))
-usepreset(storeddata)
+usepreset(storeddata, false)
 function updatesave() {
    var storeddata1 = timetabletostring(genlessons(), genlessonsas())
    if (storeddata == storeddata1) return
@@ -363,6 +363,20 @@ function downloadtimetable() { // this is incredibly hacky yes but research does
    document.getElementById('downloadlink').setAttribute("href", "javascript:downloadtimetable()")
 }
 
+function copylink() {
+   var link = "https://lessonsleft.github.io/#" + encodeURI(timetabletostring(genlessons(), genlessonsas()))
+   document.getElementById("copylink").value = link
+   document.getElementById("copylink").style = ''
+   document.getElementById("copylink").select()
+   document.getElementById("copylink").setSelectionRange(0, link.length)
+   document.execCommand("copy")
+   document.getElementById("copylink").style = 'display: none'
+}
+
+if (window.location.href.split('#')[1]) {
+   usepreset(timetablefromstring(decodeURI(window.location.href.split('#')[1])))
+   window.location.href = window.location.href.split('#')[0]
+}
 var reader = new FileReader()
 reader.onload = function(uptext) {
    try {
