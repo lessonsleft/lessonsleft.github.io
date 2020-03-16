@@ -365,7 +365,7 @@ function downloadtimetable() { // this is incredibly hacky yes but research does
 
 function copylink() {
    var link = "https://lessonsleft.github.io/#" + encodeURI(timetabletostring(genlessons(), genlessonsas()))
-   navigator.clipboard.writeText(link)
+   navigator.clipboard.writeText(link).catch(err => alert("Your browser doesn't seem to allow clipboard permissions, but the link is " + link))
 }
 
 if (window.location.href.split('#')[1]) {
