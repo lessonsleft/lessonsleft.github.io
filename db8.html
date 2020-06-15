@@ -1,7 +1,7 @@
 <meta charset="ISO-8859-1">
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-<body>First name: <input type="text" id="fname"></input> Surname: <input type="text" id="sname"></input> Year group: <input type="number" id="year"></input></br></br>Password (should have been given to you): <input type="password" id="password"></input> <span id="rememberp"><label for="remember">Remember details (uses a cookie)</label><input type="checkbox" id="remember"></input></span> <button onclick="submit()">Submit</button> <span id="error" style="color:red"></span></body>
+<body>First name: <input type="text" id="fname"></input> Surname: <input type="text" id="sname"></input> Year group: <input type="number" id="year"></input></br></br>Password (should have been given to you): <input type="password" id="password"></input> <span id="rememberp"><label for="remember">Remember details (uses a cookie)</label><input type="checkbox" id="remember"></input></span> <button onclick="submit()">Submit</button> <span id="error" style="color:red"></span><br><br><br>Don't worry, none of the data you input here leaves your computer or enters any external servers. It is purely for your convenience.</body>
 <script>
 if (localStorage.getItem('token')) {
    var token = localStorage.getItem('token').split(" ")
