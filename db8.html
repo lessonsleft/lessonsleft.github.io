@@ -1,20 +1,59 @@
 <meta charset="ISO-8859-1">
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-<body></body>
+<body>First name: <input type="text" id="fname"></input> Surname: <input type="text" id="sname"></input> Year group: <input type="number" id="year"></input></br></br>Password (should have been given to you): <input type="password" id="password"></input> <span id="rememberp"><label for="remember">Remember details (uses a cookie)</label><input type="checkbox" id="remember"></input></span> <button onclick="submit()">Submit</button> <span id="error" style="color:red"></span></body>
 <script>
-var string = "U2FsdGVkX1+WTSkobiJs6Fg1LLHhExSj9TMes6O3RePcg/ihPwwTIWOXl7DEWYtGpTYvvhSImaiU4G9oNHzVrfCvANBqvZJ/0lUe26eYeKZOrbIn/B+2XfTRX38ic40us0CGQ/1ZrArmsaLUk3Vf/4JJARU/183kXPP4O2/NKGzce2AWvNKT0odPGy2zJ2wbUPIJ7p25Gm6VNXhuoiqCp83FbDmcLm4Ru39+ezKGNuNaK/95XcAqrZQ0UahK1iuRhklQN2UWBxsPL4qT5MYHtGMasOoDWZcWb+7rEbbSa2rc+crg7HwkH7mHXh9NLR3z7kAjRIJXFKfkUj4MVwabgu0qFe5ZC4umg+1PxFURGFdMXO2TkPDd5BAjcuKfAL1mSxv+VjouhnqRsooMiliL7BU76DUKU1ppAUzkm1LQnCJ85kQPJ9zjZAI0NbEBb2nbbxdHl8hP7SrGTrPpopBd19i78SjI3NX/s2dFxCnZnpJCcz21ZoHZ+9s1mGF3kzhI1tvy4DgsaEOYKe/aT/a1VvlwKMPPADIUIm57DKyIj/dLBVcYo7ZGJ8CrhDlcKdQgkRwMsUbsx0YwAZwLmwFQEqssPFiBEdVwOb9R6MibYa7u79fjmPVUxSh7i5NKF9Qi6jgi3+joAOIex46FnojGVD1siO66B8XhUc8foCi7dcrR2zNtjUw/pSi07uEAemSh0plu1V80+quji0TDYyIzbr3RaYY+uUEbsLoW9A8KPKbCTG51NFbPJx/GRd38uHNuRjVBQVTn+x4O4fsgLeZawiRJVNPBG6WnOXfvsVx8UT/NdNAB0eWcrk3N7LfEz8ORfC/T7ujHaOhvk2gfPdeo8ID1akvkw4v9heQl+Zw6ffZYV1qi+0vy3AGsZGGFnmCWG+9eocCfkpiDgQzPKdfGMCoXYuj0rkvKoExfNhtDZtgdWex5uo96JuJFN1k0zHVg9zpeTQZEGzYbYGhrBd4SA4evS7vUnQo5mjX4HpFNfhH354Dm9s9p3YA8pMZNikcnU6SQ7oT+D0OqV5QC3n9JY7c4yDxBoc/3NHS/WBuf5+HZ5jfaDVLTuTWRbFH4ltTVPqhM2712hUc3WiQ19qJKOrR3Ps9UnjfFos29PwohwuEf4cNLzR6i0AZ+De3+qovDenJuhZWxeqemL6KS1gLR9XEDjHA8377jdEDnopPQbLGyv1qWjU1PQ36CZiSSSHdOfo7Sc3D/FlKjg/ET/uMhjtPCorUCD/bVIbEHjTMLqp/wXIm9PgQWogsxw4y+V2PoI66YR6f3+WQoxqlJoR+Q+WHRY2Sd3eW01y41oUWnupShSGfTd3UNFsyyNrhdj2gNwmlHyyzahuZcScyYHRAMpg74aemEocg/nI0uSsHxL0oujEqfRrYTUQMZYCb0braKkkDkPCRZHE+ExT49BjfqUPXgE5OqHEMrdfDPoDvpbh0JAv8H3Ye8fb2HuYhHezoKO1TCKykwmg1sYUKJ0UdIjM3QHAvQSMjHLlJEdLmhdQV+ZnpDFQiGr59qhlLxgHD3wDBMN9qL5X7uKwLbNrRAi4fJAKVZocetmQD+OpUX+fq94TwM3U+xSb+zX1QfntiiCdllWMIPYLsV3a4FLjeQkga4eXGYA31FfpKVwfyR4HW7Buh+gBWorey9hjSCXQtrd+Utpu8YPsCY4pmqEnRG2T6SrZOp0nSCFyP34IG6uuG0B/hSUJLMLP5Coy2y+h8QuPum28yprIJzv73MWR76umzagFlDk8WsToZuz2XeysNaO3q2YNZkn51DJyzWbMNiBCBlY1a1AMMJMSAT7kG+t0ENUMLN2n44HX6AkNxVB/KbpMDphB5nAvgVPwulDu20oZZaqqfD4VjOS9W6IMDaig6jCpiyxlHnAesmfpIlA08wiBw3M4UdIGglcf0yOgv0xTI7AgL2i511fvzhSLeEejXbKyDddU336FSMds3WN7JoYwuzcVqWXvbNAfMXHkxgmh6W/sA/JMxLP7MGpDuQaw8KajexjdvQ4ERzFjrITe4t3kZ0Z8eFMTk8TVXnnagyob9khnuHToCa03ZDUf8jY+UrGcLwEhz5meD/qG2yXBI/wDzNHv4S9xSFu7ZHhssMMsrFA3KAJq/NN1ouuewLigxyWIDiZlUhxbynVu3O/V/Ep9OpjyLVTJJ8Q4lIYzpSWlg8xEPt11KZ1aBXiWGbStfE7Vegcrv1pDzKOujiQkNKqwliX3P6fV5cUt6ExgcP"
-var decrypt = ""
-while (!decrypt.includes("debate")) {
-   var password = prompt("Please enter your password")
+if (localStorage.getItem('token')) {
+   var token = localStorage.getItem('token').split(" ")
+   document.getElementById('fname').value = window.atob(token[0])
+   document.getElementById('sname').value = window.atob(token[1])
+   document.getElementById('year').value = token[2]
+   document.getElementById('password').value = token[3]
+   document.getElementById('rememberp').innerHTML = `<a href="javascript:deletecookie()">Forget details</a>`
+}
+function deletecookie() {
+   localStorage.removeItem('token')
+   document.getElementById('rememberp').innerHTML = `<label for="remember">Remember details (uses a cookie)</label><input type="checkbox" id="remember"></input>`
+}
+var string = "U2FsdGVkX186sErrsatDhkTtwKJxCRqQqYR/aLU5JtAq8CcdL0FwKNbjA4VFMbDe7JnQmFHgYbfyrbtaFnFs+0zj2qDAC78AqrbIvGdGILZazmPHox1lBqS1JpHqeCxW8Iqh52RJagLwTeSrfSFrlRLeZE8PvmZ9yXCk7/KIpGvh7hU3HNx9wE6fKx4Zyyya/SbIG4SGBT9E6Z8g/lMj7339OY5VfO1bahuQ8bz7l5+BlgiyXEXhrm0kbbx+wi7/94jZ1pLQCOBjV+wb9D+C3DAiM54+H4Duzw2zBgcD261BY7dMnQd4X5kIuYhobibONb7L9JyBPfRJOuZJ8HdBo31cDbPYxQ9S0zVa9jP/YmqUmV0y7W6ioO83ZKLiMdXBIsJ/bbli5IkqLl6YspIzbtjMNKUiNK40l2qAayufoQjeRhE4bMEDyoCK4bGcloED94+17b9JGoN/64gcXXx/40SVwaKywMyqy+e/Mg5/S1yvr+gR0JapDcg4Pt43xAHLeDOGv0PZ3ojhFxplyReKVsMxrnyYMmtoO88arVVpAm/49QvnLSrEu3rGyEfhGK82u8Xp/y3P9BmHTVmXMU8uaigsGCZfIjNQ+o2KVSsNRG4EdeavVhJLByAsXkiN5Rq6VJz6rsVXfoU0NDX798YiysZB0GU5aYWWEppOvWqlRIbEq9BqgrA6UDjFU0c48CjoMxCEfLy6LoFAhH6Lg3ztg605oYozvCb69Y+wxuVupB3mlJSgmXHk60PVXiXHWDyiZ9K/V92khTOGx+aidKD7ReDsSiS76f05rcbNS2egX26aUFZlJY6/JSyLpYJTUOa1k1wFu+qbp9jwq3SKVgiTK9irUN9uqK9GRlLQT/X68zyYPhT4et1LH38WPckFoVucYvcrs+lcTjX7mbSOmUOORRK9IXFs/yxMBhyVm/XpxppAT2Jb5IPiHtaLOeasz8CaFxNDQdlZc3c551g3LGCu4ixuWYIfKFNB4KcmZiNmBfNwISwfUXck0Pzz1jrAFNJPCztOot+0WQ1fU0kxP5NtkssP4t738ILh2enixcJxEZEHPVHBYP19jH7UH8ibSnM/QtmZOLGONyOUJQM2jQgb7l8EdDP2qMVSzUxAzdGwTPSIKMefHGtJFbv/mxEUfxQWGAFJu1hNeaVeNsbuSlEFLsset7W3qIVCkibXiJMy/xD/abrXbj9A5yFwm1Ubw8E9n0rwkFi1Ar8EVsQR1KXfV1b6nmSjFn7ugXBplP3ixggqcV06jI4yqWoPITUgcmXeCiItQpzuUdwA4cjzf30WYbWxaPgRtZfzirYsikG5vIfXF5OBfc2cZOL5cz8OiGbfRCA+vC1sWNhOOWQayVeqI5eJGIchSAXvFhdICayvojN1Boyv5nJau7b2PR5sBa3ibG6adYNqm/bT1eXn3FpCE8XHAFEhTUbkRVPBMVc5y6wJur7F7gwh4ZrE3YNnAbiaJqe6GEpc4eYTs/Ah/plqyP3fzXJ9PYadGXW95Kc0HiPwuRAoo1HHS7J5GSyzQ+pwcNvECRbxbVEJJNvKrHaF10CvnH6zW2pTVqSevDfDbJMCJ46xCv9aJUD3CnAsqBaaH9iH6zMdSvO1Zspx1ARx9yss3LumZ71Aocmks07RbzyVxBKo3181xwn49Ntw0OpLEigS7K7HJS5sYLTiC91JVu4p6nEJVxgGdawr5DCBJI0M81RFoiybsT1KqXx79FL3wEaDECSnKR6nXMAr6Hes6JmtpLz0taDnsg0dlLHnmjxMFAujvw/FTtbQTim0V2N+Uh0He2+iouIarjrLWy9TuNggKMtYzdzdF5xNNt2g9OiD9KOX0Mw+cnAgkVuRpLvlMAuhhWogcHHePdfV9EHahJ8s5/YClIiVoiMB+hZc1ZM="
+var name = ""
+var dbname = "db1cis"
+function submit() {
+   var password = document.getElementById('password').value
+   var decrypt = ""
    try {
-      var decrypt = CryptoJS.AES.decrypt(string, password).toString(CryptoJS.enc.Utf8)
+      decrypt = CryptoJS.AES.decrypt(string, password).toString(CryptoJS.enc.Utf8)
    }
    catch {
-      var decrypt = ""
+      document.getElementById('error').innerHTML = "Password is incorrect"
+      throw "Incorrect password"
    }
+   if (!decrypt.includes("debate")) {
+      document.getElementById('error').innerHTML = "Password is incorrect"
+      throw "Incorrect password"
+   }
+   var fname = document.getElementById('fname').value
+   fname = fname.replace(/-/g, "").replace(/ /g, "").replace(/&/g, "").replace(/>/g, "").replace(/</g, "").replace(/"/g, "").toLowerCase()
+   var sname = document.getElementById('sname').value
+   sname = sname.replace(/-/g, "").replace(/ /g, "").replace(/&/g, "").replace(/>/g, "").replace(/</g, "").replace(/"/g, "").toLowerCase()
+   if (fname == "" || sname == "") {
+      document.getElementById('error').innerHTML = "Please enter a valid name"
+      throw "Invalid name"
+   }
+   var year = document.getElementById('year').value
+   year = Number(year.replace(/\D/g,''))
+   if (year < 7 || year > 13) {
+      document.getElementById('error').innerHTML = "Please enter a valid year"
+      throw "Invalid year"
+   }
+   year = year.toString()
+   var name = fname + sname
+   name = name.substring(0, 32-year.length-dbname.length) + year + dbname
+   if (document.getElementById('remember')) {
+      if (document.getElementById('remember').checked) localStorage.setItem('token', window.btoa(document.getElementById('fname').value) + " " + window.btoa(document.getElementById('sname').value) + " " + year + " " + password)
+   }
+   document.body.innerHTML = decrypt
+   document.getElementById('name').innerHTML = name
 }
-document.body.innerHTML = decrypt
-
 </script>
 </html>
