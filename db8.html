@@ -47,7 +47,7 @@ function submit() {
       throw "Invalid year"
    }
    year = year.toString()
-   var name = fname + "." + sname
+   var name = fname + "-" + sname
    name = name.substring(0, 32-year.length-dbname.length) + year + dbname
    if (document.getElementById('remember')) {
       if (document.getElementById('remember').checked) localStorage.setItem('token', window.btoa(document.getElementById('fname').value) + " " + window.btoa(document.getElementById('sname').value) + " " + year + " " + password)
